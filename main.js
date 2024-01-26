@@ -21,6 +21,7 @@ let num = 0;
 let animate = checkBox.checked;
 let angleMod = 0;
 let lengthMod = 0.1;
+
 output.innerHTML = slider.value;
 slider.oninput = function() {
     output.innerHTML = this.value;
@@ -37,12 +38,12 @@ slider3.oninput = function() {
 checkBox.oninput = function () {
     animate = this.checked;
 }
+
 function main(len,pos,ang){
-        if (len>1){
-            ctx.strokeStyle = color[Math.floor(len%8)];
+        if (len>2){
+            ctx.strokeStyle = color[Math.floor((len+2)%8)];
             ctx.beginPath();
             ctx.moveTo(pos.x,pos.y);
-            len+=lengthMod;
             pos.x = pos.x+len*Math.sin(ang);
             pos.y = pos.y-len*Math.cos(ang);
             ctx.lineTo(pos.x,pos.y);
@@ -50,23 +51,21 @@ function main(len,pos,ang){
             ctx.closePath()
             ang+=theta*(angleMod+1);
             len-=lengthMod;
-            main(len-dec,pos,ang);
+            main(len/1.5,pos,ang);
             ang += -1*((2+angleMod)*theta);
             len+=lengthMod;
-            main(len-dec,pos,ang);
+            main(len/1.5,pos,ang);
             ang += theta;
-            pos.x = pos.x-len*Math.sin(ang),
+            pos.x = pos.x-len*Math.sin(ang);
             pos.y = pos.y+len*Math.cos(ang);
-            
         }
     }
 function renderFrame(){
     ctx.clearRect(0,0,width,height);
-    main(100,startingPos,0);
+    main(150,startingPos,0);
     if(animate==true){
         theta += 0.2*(Math.PI/180)%Math.PI;
     }
-    console.log(angleMod);
     requestAnimationFrame(renderFrame);
 }
 requestAnimationFrame(renderFrame);
