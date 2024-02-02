@@ -20,7 +20,7 @@ let theta = slider.value*Math.PI/180;
 let num = 0;
 let animate = checkBox.checked;
 let angleMod = 0;
-let lengthMod = 0.1;
+let lengthMod = 0;
 
 output.innerHTML = slider.value;
 slider.oninput = function() {
@@ -40,7 +40,7 @@ checkBox.oninput = function () {
 }
 
 function main(len,pos,ang){
-        if (len>2){
+        if (len>5){
             ctx.strokeStyle = color[Math.floor((len+2)%8)];
             ctx.beginPath();
             ctx.moveTo(pos.x,pos.y);
@@ -52,7 +52,9 @@ function main(len,pos,ang){
             ang+=theta*(angleMod+1);
             len-=lengthMod;
             main(len/1.5,pos,ang);
-            ang += -1*((2+angleMod)*theta);
+            ang += -1*theta*(angleMod+1);
+            main(len/1.5,pos,ang);
+            ang += -1*theta;
             len+=lengthMod;
             main(len/1.5,pos,ang);
             ang += theta;
@@ -66,6 +68,9 @@ function renderFrame(){
     if(animate==true){
         theta += 0.2*(Math.PI/180)%Math.PI;
     }
+    pos = startingPos;
+    ang = 0;
+    len = 150;
     requestAnimationFrame(renderFrame);
 }
 requestAnimationFrame(renderFrame);
